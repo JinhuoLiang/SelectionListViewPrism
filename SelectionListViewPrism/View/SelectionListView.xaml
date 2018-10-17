@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="SelectionListViewPrism.UpDownListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SelectionListViewPrism"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style x:Key="listViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Border Name="border" Padding="2" SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="border" Property="Background" Value="Yellow"/>
+                                <Setter Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="IsSelected"  Value="{Binding IsSelected, Mode=TwoWay}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="100"/>
+            <ColumnDefinition MaxWidth="50" MinWidth="50" Width="50"/>
+            <ColumnDefinition MinWidth="100"/>
+            <ColumnDefinition MaxWidth="50" MinWidth="50" Width="50"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="upDownSelectListView" 
+                  Grid.Column="0" 
+                  Grid.RowSpan="2" 
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  Margin="1,1,1,1" 
+                  ItemContainerStyle="{DynamicResource listViewItemStyle}"
+                  ItemsSource="{Binding UpDownListModel.AvailableListItems, Mode=TwoWay}" 
+                  SelectionMode="Multiple"
+                  SelectedItem="{Binding UpDownListModel.AvailableSelectedListItem, Mode=TwoWay}"
+                  Cursor="Arrow">
+        </ListView>
+        <Button x:Name="listViewRemoveAllButton" Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="24" Height="24"  Margin="0,0,0,39" ToolTip="Move all items to the right box" Command="{Binding RemoveAllButtonClickCommand}">
+            <Path Fill="Black" Data="M 0 0 L 10 10 L 10 0 L 20 10 L 10 20 L 10 10 L 0 20 Z"/>
+        </Button>
+        <Button x:Name="listViewRemoveButton" Grid.Column="1"  Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="24" Height="24"  Margin="0,0,0,5" ToolTip="Move the selected item to the right box" Command="{Binding RemoveButtonClickCommand}">
+            <Path Fill="Black" Data="M 0 0 L 10 10 L 0 20 Z"/>
+        </Button>
+        <Button x:Name="listViewAddButton" Grid.Column="1"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="24" Height="24"  Margin="0,5,0,0" ToolTip="Move the selected item to the left box" Command="{Binding AddButtonClickCommand}">
+            <Path Fill="Black" Data="M 10 0 L 10 20 L 0 10 Z"/>
+        </Button>
+        <Button x:Name="listViewAddAllButton" Grid.Column="1"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="24" Height="24"  Margin="0,39,0,0" ToolTip="Move all items to the left box" Command="{Binding AddAllButtonClickCommand}">
+            <Path Fill="Black" Data="M 0 10 L 10 0 L 10 10 L 20 0 L 20 20 L 10 10 L 10 20 Z"/>
+        </Button>
+        <ListView x:Name="upDownListView" 
+                  Grid.Column="2" 
+                  Grid.RowSpan="2" 
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch" 
+                  Margin="1,1,1,1" 
+                  ItemContainerStyle="{DynamicResource listViewItemStyle}"
+                  ItemsSource="{Binding UpDownListModel.ListItems, Mode=TwoWay}" 
+                  SelectionMode="Multiple"
+                  SelectedItem="{Binding UpDownListModel.SelectedListItem, Mode=TwoWay}"
+                  Cursor="Arrow">
+        </ListView>
+        <Button x:Name="listViewMoveTopButton" Grid.Column="3"  Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="24" Height="24" Margin="0,0,0,39" ToolTip="Move the selected item to the top" Command="{Binding TopButtonClickCommand}">
+            <Path Fill="Black" Data="M 10 0 L 0 10 L 10 10 L 0 20 L 20 20 L 10 10 L 20 10 Z"/>
+        </Button>
+        <Button x:Name="listViewMoveUpButton" Grid.Column="3"  Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="24" Height="24" Margin="0,0,0,5" ToolTip="Move the selected item up one position" Command="{Binding UpButtonClickCommand}">
+            <Path Fill="Black" Data="M 10 0 L 0 10 L 20 10 Z"/>
+        </Button>
+        <Button x:Name="listViewMoveDownButton" Grid.Column="3"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="24" Height="24" Margin="0,5,0,0" ToolTip="Move the selected item down one position" Command="{Binding DownButtonClickCommand}">
+            <Path Fill="Black" Data="M 0 0 L 10 10 L 20 0 Z"/>
+        </Button>
+        <Button x:Name="listViewMoveBottomButton" Grid.Column="3"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="24" Height="24" Margin="0,39,0,0" ToolTip="Move the selected item to the bottom" Command="{Binding BottomButtonClickCommand}">
+            <Path Fill="Black" Data="M 0 0 L 10 10 L 0 10 L 10 20 L 20 10 L 10 10 L 20 0 Z"/>
+        </Button>
+    </Grid>
+</UserControl>
